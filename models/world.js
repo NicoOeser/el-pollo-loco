@@ -34,9 +34,18 @@ class World {
     }
 
     checkThrowObjects() {
-        if (this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-            this.throwableObjects.push(bottle);
+        if (this.keyboard.UP && this.character.collectableBottle > 0) {
+            if (!this.throttled) {
+                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+                this.throwableObjects.push(bottle);
+                this.character.collectableBottle -= 10;
+                this.bottleBar.setPercentageBottleBar(this.character.collectableBottle);
+                this.throttled = true;
+
+                setTimeout(() => {
+                    this.throttled = false;
+                }, 500);
+            }
         }
     }
 
@@ -66,7 +75,6 @@ class World {
                 this.level.bottles.splice(i, 1);
                 this.character.collectBottle();
                 this.bottleBar.setPercentageBottleBar(this.character.collectableBottle);
-                console.log('Flaschen eingesammelt', this.character.collectableBottle);
             }
         }
     }
@@ -81,8 +89,7 @@ class World {
             if (this.character.isColliding(coin)) {
                 this.level.coins.splice(i, 1);
                 this.character.collectCoin();
-                this.coinBar.setPercentageCoinBar(this.character.collectableCoin);
-                console.log('Coins eingesammelt', this.character.collectableCoin);
+                this.coinBar.setPercentageCoinBar(this.character.collectableCoin);               
             }
         }
     }
