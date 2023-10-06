@@ -16,10 +16,10 @@ class ThrowableObject extends MovableObject {
     speedX = 7;
 
     offset = {
-        top: 30,
-        left: 30,
-        bottom: 30,
-        right: 30
+        top: 25,
+        left: 25,
+        bottom: 25,
+        right: 25
     };
 
     constructor(x, y) {
