@@ -5,6 +5,8 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 100;
     lastHit = 0;
+    collectableBottle = 0;
+    collectableCoin = 0;
 
 
     applyGravity() {
@@ -24,6 +26,25 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    collectBottle() {
+        this.collectableBottle += 10;
+        if (this.collectableBottle > 100) {
+            this.collectableBottle = 100;
+        }
+    }
+
+
+    /**
+     * if Player collides with Coin he fill the bar
+     */
+    collectCoin() {
+        this.collectableCoin += 10;
+        if (this.collectableCoin > 100) {
+            this.collectableCoin = 100;
+        }
+    }
+
+
 
         // character.isColliding(chicken); 
         isColliding(mo) {
@@ -33,6 +54,7 @@ class MovableObject extends DrawableObject {
                 this.y < mo.y + mo.height;
         }
 
+        
         hit() {
             this.energy -= 20;
             if (this.energy < 0) {
