@@ -31,6 +31,7 @@ class World {
             this.checkBottleCollision();
             this.checkCoinCollision();
             this.checkCollisions();
+            this.deleteThrowObject();
         }, 200);
     }
 
@@ -75,16 +76,14 @@ class World {
         if (enemy.isColliding(bottle) && bottle.energy > 0 && bottle.isAboveGround()) {
             enemy.energy -= 100;
             bottle.energy -= 100;
-           if (enemy instanceof Chicken || enemy instanceof SmallChicken) {
-            setTimeout(() => {
-                this.deadEnemyDisappear(enemy);
-            }, 500);
-           }
-           if (enemy instanceof Endboss) {
-            this.endBossBar.percentage -= 20;
-            this.endBossBar.setPercentageEndbossBar(this.endBossBar.percentage);
-            console.log('Endboss HP', this.endBossBar.percentage)
-        }
+            if (enemy instanceof Chicken || enemy instanceof SmallChicken) {
+                setTimeout(() => {
+                    this.deadEnemyDisappear(enemy);
+                }, 500);
+            }
+            if (enemy instanceof Endboss) {
+                this.bottleHitsEndboss(enemy, bottle);
+            }
         };
     }
 
@@ -95,10 +94,25 @@ class World {
         }
     }
 
-    bottleHitsEndboss() {
-
+    bottleHitsEndboss(enemy, bottle) {
+        this.endBossBar.percentage -= 20;
+        this.endBossBar.setPercentageEndbossBar(this.endBossBar.percentage);
+        bottle.speedY = enemy;
     }
     
+    deleteThrowObject() {
+        for (let i = 0; i < this.throwableObjects.length; i++) {
+            if (this.throwableObjects[i].energy == 0 && !this.throwableObjects[i].deleted || !this.throwableObjects[i].isAboveGround() && !this.throwableObjects[i].deleted) {
+                this.throwableObjects[i].deleted = true;
+                setTimeout(() => {
+                    if (this.throwableObjects[i].deleted) {
+                        this.throwableObjects.splice(i, 1)
+                    }
+                }, 500);
+            }
+        }
+    }
+
 
     checkEnemyCollision(enemy) {
         if (this.character.isColliding(enemy) && !this.character.isAboveGround() && (enemy instanceof Chicken || enemy instanceof SmallChicken || enemy instanceof Endboss) && enemy.energy > 0) {
