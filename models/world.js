@@ -40,6 +40,7 @@ class World {
             this.checkCollisions();
             this.deleteThrowObject();
             this.chickenAttack();
+            this.activateEndboss();
         }, 200);
     }
 
@@ -218,6 +219,14 @@ playerInvincible() {
             }
         })
     }
+
+    activateEndboss() {
+        this.level.enemies.forEach((enemy) => {
+            if (enemy.x - this.character.x < 500 && enemy.energy > 0 && enemy instanceof Endboss) {
+                enemy.speed = 3;
+            }
+        })
+    }
  
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -231,9 +240,11 @@ playerInvincible() {
         this.addToMap(this.statusBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.bottleBar);
-        if (this.character.x >= 1500) {
-            this.addToMap(this.endBossBar);
-        }
+        this.level.enemies.forEach((enemy) => {
+            if (enemy.x - this.character.x < 500 && enemy.energy > 0 && enemy instanceof Endboss) {
+                this.addToMap(this.endBossBar);
+            }
+        });
         this.ctx.translate(this.camera_x, 0); 
 
         this.addToMap(this.character);
