@@ -40,6 +40,15 @@ class MovableObject {
         return this.y < 180;
     }
 
+    
+        // character.isColliding(chicken); 
+        isColliding(mo) {
+            return this.x + this.width > mo.x &&
+                this.y + this.height > mo.y &&
+                this.x < mo.x &&
+                this.y < mo.y + mo.height;
+        }
+
 
     // loadImage('img/test.png);
     loadImage(path) {
