@@ -14,7 +14,7 @@ class Chicken extends MovableObject {
     constructor(){
         super().loadImage('assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
-
+        this.applyGravityChicken();
         this.x = 550 + Math.random() * 1800;
         this.speed = 0.15 + Math.random() * 1;
 
@@ -34,5 +34,12 @@ class Chicken extends MovableObject {
                 this.playAnimation(this.IMAGES_WALKING)
             }
         }, 200)
+    }
+
+    rushAttack() {
+        this.speed = 4;
+        if (!this.isAboveGroundChicken()) {
+            this.lowJump();
+        }
     }
 }

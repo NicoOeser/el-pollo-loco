@@ -48,20 +48,4 @@ class SmallChicken extends MovableObject {
 
     }
     
-    isAboveGroundChicken() {
-        if (this instanceof ThrowableObject) { // Throwable Objects should always fall
-            return true;
-        } else {
-            return this.y < 360;
-        }
-    }
-    
-    applyGravityChicken() {
-        setInterval(() => {
-            if (this.isAboveGroundChicken() || this.speedY > 0) {
-                this.y -= this.speedY;
-                this.speedY -= this.acceleration;
-            }
-        }, 1000 / 25);
-    }
 }

@@ -33,6 +33,25 @@ class MovableObject extends DrawableObject {
         }
     }
 
+        isAboveGroundChicken() {
+            if (this instanceof SmallChicken) { 
+                return this.y < 360;
+            } else if (this instanceof Chicken) {
+                return this.y < 330;
+            }
+        }
+    
+  
+        applyGravityChicken() {
+            setInterval(() => {
+                if (this.isAboveGroundChicken() || this.speedY > 0) {
+                    this.y -= this.speedY;
+                    this.speedY -= this.acceleration;
+                }
+            }, 1000 / 25);
+        }
+    
+
     collectBottle() {
         this.collectableBottle += 10;
         if (this.collectableBottle > 100) {

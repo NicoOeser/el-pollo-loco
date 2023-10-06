@@ -32,6 +32,7 @@ class World {
             this.checkCoinCollision();
             this.checkCollisions();
             this.deleteThrowObject();
+            this.chickenAttack();
         }, 200);
     }
 
@@ -191,6 +192,14 @@ playerInvincible() {
                 }, 500);
             }
         }
+    }
+
+    chickenAttack() {
+        this.level.enemies.forEach((enemy) => {
+            if (enemy.x - this.character.x < 350 && enemy.energy > 0 && enemy instanceof Chicken) {
+                enemy.rushAttack();
+            }
+        })
     }
  
     draw() {
