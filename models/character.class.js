@@ -5,6 +5,12 @@ class Character extends MovableObject {
     y = 155
     speed = 8;
     lastMoveTime;
+    offset = {
+        top: 150,
+        left: 30,
+        bottom: 20,
+        right: 40
+    };
 
     IMAGES_WALKING = [
         'assets/img/2_character_pepe/2_walk/W-21.png',

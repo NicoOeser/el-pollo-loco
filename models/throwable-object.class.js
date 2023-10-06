@@ -15,6 +15,13 @@ class ThrowableObject extends MovableObject {
     ];
     speedX = 7;
 
+    offset = {
+        top: 30,
+        left: 30,
+        bottom: 30,
+        right: 30
+    };
+
     constructor(x, y) {
         super().loadImage('assets/img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES_BOTTLE_ROTATION);

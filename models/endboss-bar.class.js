@@ -8,6 +8,13 @@ class EndbossBar extends DrawableObject {
         'assets/img/7_statusbars/2_statusbar_endboss/01.png',
     ];
 
+    offset = {
+        top: 100,
+        left: 30,
+        bottom: 40,
+        right: 40
+    };
+
     percentage = 100;
 
 
