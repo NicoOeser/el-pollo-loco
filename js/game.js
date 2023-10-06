@@ -1,25 +1,37 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-game_sound = new Audio('audio/music.mp3');
+
 
 function init() {
     hideStartscreen();
-    playIngameBackgroundMusic();
+    showVolumeBtn();
     canvas = document.getElementById('canvas');
     initLevel();
     world = new World(canvas, keyboard);
-}
-
-function playIngameBackgroundMusic() {
-    this.game_sound.volume = 0.03;
-    this.game_sound.play();
 }
 
 function hideStartscreen() {
     document.getElementById('startscreen').classList.add('d-none');
 }
 
+function showVolumeBtn() {
+    document.getElementById('volume').classList.remove('d-none');
+}
+
+function volumeMute() {
+    world.audio = false;
+    let volume = document.getElementById('volume');
+    volume.src = 'assets/img/sound-off.png';
+    volume.setAttribute('onclick', 'volumeUp()');
+}
+
+function volumeUp() {
+    world.audio = true;
+    let volume = document.getElementById('volume');
+    volume.src = 'assets/img/sound.png';
+    volume.setAttribute('onclick', 'volumeMute()');
+}
 
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) {
