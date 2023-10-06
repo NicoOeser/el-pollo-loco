@@ -24,6 +24,15 @@ class ThrowableObject extends MovableObject {
         this.height = 60;
         this.width = 50;
         this.throw();
+        this.animate();
+    }
+
+    animate() {
+        setInterval(() => {
+            if (!this.isHurt() && this.isAboveGround()) {
+                this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
+            }
+        }, 100);
     }
 
     throw() {
