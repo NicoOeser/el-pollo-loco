@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let fullscreenMode = false;
 
 
 function init() {
@@ -31,6 +32,17 @@ function volumeUp() {
     let volume = document.getElementById('volume');
     volume.src = 'assets/img/sound.png';
     volume.setAttribute('onclick', 'volumeMute()');
+}
+
+function fullscreen() {
+    let fullscreen = document.getElementById('content');
+    if (!fullscreenMode) {
+        fullscreen.requestFullscreen();
+        fullscreenMode = true;
+    } else {
+        document.exitFullscreen();
+        fullscreenMode = false;
+    }
 }
 
 window.addEventListener("keydown", (e) => {
