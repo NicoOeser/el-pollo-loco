@@ -29,7 +29,7 @@ class World {
             this.checkThrowObjects();
             this.checkBottleCollision();
             this.checkCoinCollision();
-            this.playerInvincible(); 
+            this.checkCollisions();
         }, 200);
     }
 
@@ -46,6 +46,27 @@ class World {
                     this.throttled = false;
                 }, 500);
             }
+        }
+    }
+
+    checkCollisions() {
+        if (!this.character.isHurt()) {
+            this.level.enemies.forEach((enemy) => {
+                this.collisionWithChicken(enemy);
+            });
+        };
+        this.checkBottleCollision();
+        this.checkCoinCollision();
+        this.checkThrowObjects();
+    }
+
+    collisionWithChicken(enemy) {
+        if (this.character.isColliding(enemy) && !this.character.isAboveGround() && (enemy instanceof Chicken || enemy instanceof SmallChicken) && enemy.energy > 0 ) {
+            this.playerInvincible();
+        }
+        if (this.character.isColliding(enemy) && this.character.isAboveGround() && (enemy instanceof Chicken || enemy instanceof SmallChicken) && enemy.energy > 0) {
+            enemy.energy -= 100;
+            this.character.jump('low');
         }
     }
 

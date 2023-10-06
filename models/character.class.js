@@ -89,17 +89,20 @@ class Character extends MovableObject {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.otherDirection = false;
                 this.moveRight();
+                this.setLastMoveTime()
                 
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.otherDirection = true;
                 this.moveLeft();
+                this.setLastMoveTime()
                 
             }
 
             if (this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
+                this.setLastMoveTime()
             }
 
             this.world.camera_x = -this.x + 100;
@@ -123,6 +126,10 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_IDLE);
             }
         }, 100);
+    }
+
+    setLastMoveTime() {
+        this.lastMoveTime = new Date().getTime();
     }
 
     checkIdleTime() {
