@@ -4,6 +4,8 @@ class Character extends MovableObject {
     width = 125;
     y = 155
     speed = 8;
+    lastMoveTime;
+
     IMAGES_WALKING = [
         'assets/img/2_character_pepe/2_walk/W-21.png',
         'assets/img/2_character_pepe/2_walk/W-22.png',
@@ -76,6 +78,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.applyGravity();
         this.animate();
+        this.lastMoveTime = new Date().getTime();
     }
 
 
@@ -110,12 +113,21 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                //Walk Animation :
+                this.playAnimation(this.IMAGES_WALKING);
+            } else if (this.checkIdleTime()) {
+                //Long Idle Animation :
+                this.playAnimation(this.IMAGES_LONG_IDLE);
             } else {
-
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
+                this.playAnimation(this.IMAGES_IDLE);
             }
-        }, 50);
+        }, 100);
+    }
+
+    checkIdleTime() {
+        let idleTime = new Date().getTime() - this.lastMoveTime;
+        idleTime = idleTime / 1000;
+        return idleTime > 5;
     }
 }
