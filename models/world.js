@@ -14,7 +14,6 @@ class World {
     endboss_sound = new Audio ('audio/el_pollo_loco.mp3')
     chicken_sound = new Audio('audio/chicken.mp3');
     coin_sound = new Audio('audio/collect_coin.mp3');
-    game_sound = new Audio('audio/music.mp3');
     hurt_sound = new Audio('audio/hurt.mp3'); 
     bottle_sound = new Audio('audio/collect_bottle.mp3'); 
     audio = true;

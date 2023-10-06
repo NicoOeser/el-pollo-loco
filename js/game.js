@@ -1,10 +1,23 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+game_sound = new Audio('audio/music.mp3');
 
 function init() {
+    hideStartscreen();
+    playIngameBackgroundMusic();
     canvas = document.getElementById('canvas');
+    initLevel();
     world = new World(canvas, keyboard);
+}
+
+function playIngameBackgroundMusic() {
+    this.game_sound.volume = 0.03;
+    this.game_sound.play();
+}
+
+function hideStartscreen() {
+    document.getElementById('startscreen').classList.add('d-none');
 }
 
 
