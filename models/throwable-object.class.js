@@ -29,17 +29,33 @@ class ThrowableObject extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (!this.isHurt() && this.isAboveGround()) {
-                this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
-            }
+            this.flyingBottle();
         }, 100);
+
+        setInterval(() => {
+            this.splashingBottle();
+        }, 200);
+    }
+
+    flyingBottle() {
+        if (!this.isHurt() && this.isAboveGround()) {
+            this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
+        }
+    }
+
+    splashingBottle() {
+        if (this.energy <= 0 || !this.isAboveGround()) {
+            this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
+        }
     }
 
     throw() {
-        this.speedY = 30;
-        this.applyGravity();
-        setInterval(() => {
-            this.x += this.speedX;
-        }, 25);
+        if (!world.character.otherDirection) {
+            this.speedY = 30;
+            this.applyGravity();
+            setInterval(() => {
+                this.x += this.speedX;
+            }, 25);
+        }
     }
 }

@@ -10,6 +10,7 @@ class World {
     bottleBar = new BottleBar();
     endBossBar = new EndbossBar();
     throwableObjects = [];
+    audio = true;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -52,7 +53,7 @@ class World {
     checkCollisions() {
         if (!this.character.isHurt()) {
             this.level.enemies.forEach((enemy) => {
-                this.collisionWithChicken(enemy);
+                this.checkEnemyCollision(enemy);
             });
         };
         this.checkBottleCollision();
@@ -60,15 +61,37 @@ class World {
         this.checkThrowObjects();
     }
 
-    collisionWithChicken(enemy) {
-        if (this.character.isColliding(enemy) && !this.character.isAboveGround() && (enemy instanceof Chicken || enemy instanceof SmallChicken) && enemy.energy > 0 ) {
+    checkThrowableObjectCollision() {
+
+    }
+
+    checkEnemyCollision(enemy) {
+        if (this.character.isColliding(enemy) && !this.character.isAboveGround() && (enemy instanceof Chicken || enemy instanceof SmallChicken || enemy instanceof Endboss) && enemy.energy > 0) {
             this.playerInvincible();
         }
-        if (this.character.isColliding(enemy) && this.character.isAboveGround() && (enemy instanceof Chicken || enemy instanceof SmallChicken) && enemy.energy > 0) {
+        if (this.character.isColliding(enemy) && !this.character.isAboveGround() && (enemy instanceof Chicken || enemy instanceof SmallChicken) && enemy.energy > 0) {
             enemy.energy -= 100;
             this.character.jump('low');
+            setTimeout(() => {
+                this.deadEnemyDisappear(enemy);
+              }, 500);
         }
     }
+
+    deadEnemyDisappear() {
+        let deadEnemies = [];
+        for (let i = 0; i < this.level.enemies.length; i++) {
+          let enemy = this.level.enemies[i];
+          if (enemy.energy <= 0) {
+            deadEnemies.push(i);
+          }
+        }
+
+        for (let i = deadEnemies.length - 1; i >= 0; i--) {
+          let j = deadEnemies[i];
+          this.level.enemies.splice(j, 1);
+        }
+      }
 
     playerInvincible() {
         if (!this.invincible) {
