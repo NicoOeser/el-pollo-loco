@@ -13,8 +13,30 @@ function init() {
     world = new World(canvas, keyboard);
 }
 
+function restartGame() {
+    hideEndscreen();
+    changeVolumeImg();
+    stopAudio();
+    initLevel();
+    world = new World(canvas, keyboard);
+}
+
 function hideStartscreen() {
     document.getElementById('startscreen').classList.add('d-none');
+}
+
+function hideEndscreen() {
+    document.getElementById('game-over').classList.add('d-none');
+    document.getElementById('lost-game').classList.add('d-none');
+}
+
+function hideControls() {
+    document.getElementById('settings').classList.add('d-none');
+}
+
+function stopAudio() {
+    world.win_sound.pause();
+    world.lost_sound.pause();
 }
 
 function showVolumeBtn() {
@@ -62,6 +84,11 @@ function exitFullscreenHandler() {
     if (!document.fullscreenElement) {
         fullscreenMode = false;
     }
+}
+
+function changeVolumeImg() {
+    let volume = document.getElementById('volume');
+    volume.src = 'assets/img/sound.png';
 }
 
 document.addEventListener('fullscreenchange', exitFullscreenHandler);
