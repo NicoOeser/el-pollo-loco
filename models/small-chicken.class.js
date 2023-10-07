@@ -1,13 +1,19 @@
-class SmallChicken extends MovableObject { 
-    y = 375;
-    height = 70;
-    width = 50;
+class SmallChicken extends MovableObject {
+    y = 372;
+    height = 50;
+    width = 80;
     IMAGES_WALKING = [
         'assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
         'assets/img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
-        'assets/img/3_enemies_chicken/chicken_small/1_walk/3_w.png', 
+        'assets/img/3_enemies_chicken/chicken_small/1_walk/3_w.png',
     ];
-    IMAGE_SMALL_CHICKEN_DEAD = ['assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png'];
+    IMAGE_SMALL_CHICKEN_DEAD = 'assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png';
+    offset = {
+        top: 0,
+        left: -20,
+        bottom: 0,
+        right: -20
+    };
 
 
     constructor() {
@@ -19,10 +25,6 @@ class SmallChicken extends MovableObject {
         this.animate();
     }
 
-
-    /**
-     * animate movement of the chicken && let chicken move to left side of the map
-     */
     animate() {
         setInterval(() => {
             this.moveLeft();
@@ -47,5 +49,4 @@ class SmallChicken extends MovableObject {
         }, randomSeconds * 1000);
 
     }
-    
 }

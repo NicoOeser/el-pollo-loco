@@ -1,4 +1,6 @@
 class EndbossBar extends DrawableObject {
+    percentage = 100;
+    
     IMAGES_ENDBOSSBAR = [
         'assets/img/7_statusbars/2_statusbar_endboss/100.png',
         'assets/img/7_statusbars/2_statusbar_endboss/80.png',
@@ -7,15 +9,6 @@ class EndbossBar extends DrawableObject {
         'assets/img/7_statusbars/2_statusbar_endboss/20.png',
         'assets/img/7_statusbars/2_statusbar_endboss/01.png',
     ];
-
-    offset = {
-        top: 100,
-        left: 30,
-        bottom: 40,
-        right: 40
-    };
-
-    percentage = 100;
 
 
     constructor() {
@@ -35,11 +28,6 @@ class EndbossBar extends DrawableObject {
         this.position = 0;
     }
 
-
-    /**
-     * 
-     * @returns return value which image shows on which % of status bar
-     */
     resolveImageIndex() {
         if (this.percentage == 100) {
             return 0;
