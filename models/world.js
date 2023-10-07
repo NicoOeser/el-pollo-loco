@@ -12,7 +12,7 @@ class World {
     throwableObjects = [];
     splash_sound = new Audio('audio/glass.mp3');
     chicken_sound = new Audio('audio/chicken.mp3');
-    crushed_sound = new Audio('audio/chicken.mp3');
+    crushed_sound = new Audio('audio/crushed.mp3');
     coin_sound = new Audio('audio/collect_coin.mp3');
     hurt_sound = new Audio('audio/hurt.mp3');
     collectBottle_sound = new Audio('audio/collect_bottle.mp3');
@@ -66,6 +66,7 @@ class World {
 
     playWinSound() {
         if (this.audio) {
+            this.win_sound.volume = 0.3;
             this.win_sound.play();
         }
         this.game_sound.pause();
@@ -203,6 +204,7 @@ class World {
 
     enemyDeadSound() {
         if (this.audio) {
+            this.crushed_sound.volume = 0.3;
             this.crushed_sound.play();
         }
     }
@@ -259,7 +261,7 @@ class World {
             if (this.throwableObjectSplashed(i)) {
                 this.throwableObjects[i].deleted = true;
                 setTimeout(() => {
-                    if (this.throwableObjects[i].deleted) {
+                    if (this.throwableObjects[i].deleted = true) {
                         this.throwableObjects.splice(i, 1)
                     }
                 }, 200);
