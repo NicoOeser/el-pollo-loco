@@ -36,13 +36,13 @@
 
 <body>
 
-    <h1>El pollo loco</h1>
+    <h1>El Pollo Loco</h1>
     <div id="content">
         <canvas id="canvas" width="720" height="480"></canvas>
 
         <div class="settings-nav">
             <img id="volume" onclick="volumeMute()" class="settings-btn d-none" src="assets/img/sound.png">
-            <img class="settings-btn" src="assets/img/information.png">
+            <img onclick="showSettings()" class="settings-btn" src="assets/img/information.png">
             <img onclick="fullscreen()" class="settings-btn" src="assets/img/fullscreen.png">
         </div>
 
@@ -53,6 +53,28 @@
             </div>
         </div>
 
+        <div id="settings" class="controls d-none">
+            <div class="controls-content">
+                <h2>Controls & Rules</h2>
+                <div class="controls-center">
+                    <img class="arrow-keys" src="assets/img/left-key.png">
+                    <img class="arrow-keys" src="assets/img/right-key.png">
+                    <span class="space-left">Move</span>
+                </div>
+                <div class="controls-center">
+                    <img class="arrow-keys" src="assets/img/up-key.png">
+                    <span class="space-left">Throw</span>
+                </div>
+                <div class="controls-center">
+                    <img src="assets/img/space-key.png">
+                    <span class="space-left">Jump</span>
+                </div>
+                <div class="controls-center">
+                    <span>In El Pollo Loco you step into the shoes of
+                        Pepe Peligroso.</span>
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>

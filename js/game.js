@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let fullscreenMode = false;
+let hideSettings = true;
 
 
 function init() {
@@ -44,6 +45,26 @@ function fullscreen() {
         fullscreenMode = false;
     }
 }
+
+function showSettings() {
+    let settings = document.getElementById('settings');
+
+    if (hideSettings) {
+        settings.classList.remove('d-none');
+        hideSettings = false;
+    } else if (!hideSettings) {
+        settings.classList.add('d-none');
+        hideSettings = true;
+    } 
+}
+
+function exitFullscreenHandler() {
+    if (!document.fullscreenElement) {
+        fullscreenMode = false;
+    }
+}
+
+document.addEventListener('fullscreenchange', exitFullscreenHandler);
 
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) {
