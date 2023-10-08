@@ -20,6 +20,11 @@ class CoinBar extends DrawableObject {
         this.width = 200;
     }
 
+
+    /**
+     * set percentage of coinbar
+     * @param {% of Coinbar} percentage 
+     */
     setPercentageCoinBar(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES_COINBAR[this.resolveImageIndexCollectable()];

@@ -46,17 +46,23 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
-    animate() {
 
+    /**
+     * play animations of endboss
+     */
+    animate() {
         setInterval(() => {
             this.moveLeft();
         }, 1000/60);
-
         setInterval(() => {
             this.animateEndboss();
         }, 200);
     }
 
+
+    /**
+     * animate all endboss interactions 
+     */
     animateEndboss() {
         if (this.isDead()) {
             this.playAnimation(this.IMAGES_ENDBOSS_DEATH);

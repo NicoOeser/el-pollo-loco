@@ -10,7 +10,6 @@ class EndbossBar extends DrawableObject {
         'assets/img/7_statusbars/2_statusbar_endboss/01.png',
     ];
 
-
     constructor() {
         super();
         this.loadImages(this.IMAGES_ENDBOSSBAR);
@@ -21,6 +20,11 @@ class EndbossBar extends DrawableObject {
         this.width = 200;
     }
 
+
+    /**
+     * show percentage of endboss-healthbar
+     * @param {% of Endboss-Healthbar} percentage
+     */
     setPercentageEndbossBar(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES_ENDBOSSBAR[this.resolveImageIndex()];
@@ -28,6 +32,11 @@ class EndbossBar extends DrawableObject {
         this.position = 0;
     }
 
+
+    /**
+     * check which img shows at endboss bar
+     * @returns return value which image shows on which % of endboss health bar
+     */
     resolveImageIndex() {
         if (this.percentage == 100) {
             return 0;

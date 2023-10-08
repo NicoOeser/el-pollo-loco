@@ -11,6 +11,10 @@ class Keyboard {
         });
     }
 
+
+    /**
+     * bind mobile buttons to play the game on mobile devices
+     */
     bindBtnPressEvents() {
         document.getElementById('btn-left').addEventListener('touchstart', (e) => {
             e.preventDefault();
@@ -53,6 +57,10 @@ class Keyboard {
         });
     }
 
+
+    /**
+     * bind keyboard buttons to play the game on desktop
+     */
     bindKeyPressEvents() {
         window.addEventListener("keydown", (e) => {
             if (e.keyCode == 39) {

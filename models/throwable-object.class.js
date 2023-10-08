@@ -1,4 +1,12 @@
 class ThrowableObject extends MovableObject {
+    speedX = 7;
+    speedXLeft = -7;
+    offset = {
+        top: 25,
+        left: 25,
+        bottom: 25,
+        right: 25
+    };
 
     IMAGES_BOTTLE_ROTATION = [
         'assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
@@ -14,15 +22,6 @@ class ThrowableObject extends MovableObject {
         'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
-    speedX = 7;
-    speedXLeft = -7;
-    offset = {
-        top: 25,
-        left: 25,
-        bottom: 25,
-        right: 25
-    };
-
 
     constructor(x, y) {
         super().loadImage('assets/img/6_salsa_bottle/salsa_bottle.png');
@@ -37,28 +36,43 @@ class ThrowableObject extends MovableObject {
         this.animate();
     }
 
+
+    /**
+     * play animations of throwable (bottles) objects  
+     */
     animate() {
         setInterval(() => {
             this.flyingBottle();
         }, 100);
-
         setInterval(() => {
             this.splashingBottle();
         }, 200);
     }
 
+
+    /**
+     * plays animation of flying bottles
+     */
     flyingBottle() {
         if (!this.isHurt() && this.isAboveGround()) {
             this.playAnimation(this.IMAGES_BOTTLE_ROTATION);
         }
     }
 
+
+    /**
+     * plays animation of destroyed bottles
+     */
     splashingBottle() {
         if (this.energy <= 0 || !this.isAboveGround()) {
             this.playAnimation(this.IMAGES_BOTTLE_SPLASH);
         }
     }
 
+
+    /**
+     * throw bottle and sets the parameter of flying bottle curve
+     */
     throw() {
         if (!world.character.otherDirection) {
             this.speedY = 30;
@@ -69,6 +83,10 @@ class ThrowableObject extends MovableObject {
         }
     }
 
+
+    /**
+     * throw bottle left and sets the parameter of flying bottle curve
+     */
     throwBackwards() {
         if (world.character.otherDirection) {
             this.speedY = 30;

@@ -13,12 +13,14 @@ class Cloud extends MovableObject {
         let randomIndex = Math.floor(Math.random() * this.IMAGES_CLOUDS.length);
         let randomImage = this.IMAGES_CLOUDS[randomIndex];
         this.loadImage(randomImage);
-
         this.x = x;
-
         this.animate();
     }
 
+
+    /**
+     * causes clouds to float to the left
+     */
     animate() {
         setInterval(() => {
             this.moveLeft();

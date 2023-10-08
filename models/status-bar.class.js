@@ -10,7 +10,6 @@ class StatusBar extends DrawableObject {
 
     percentage = 100;
 
-
     constructor() {
         super();
         this.loadImages(this.IMAGES_HEALTHBAR);
@@ -21,6 +20,11 @@ class StatusBar extends DrawableObject {
         this.width = 200;
     }
 
+
+    /**
+     * show percentage of player-healthbar
+     * @param {% of Healthbar} percentage
+     */
     setPercentageHealthBar(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES_HEALTHBAR[this.resolveImageIndex()];
@@ -28,6 +32,11 @@ class StatusBar extends DrawableObject {
         this.position = 5;
     }
 
+
+    /**
+     * check which img shows at player-healthbar
+     * @returns return value which image shows on which % of status bar
+     */
     resolveImageIndex() {
         if (this.percentage == 100) {
             return 5;

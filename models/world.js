@@ -22,7 +22,6 @@ class World {
     lost_sound = new Audio('audio/lose.mp3');
     audio = true;
 
-
     constructor(canvas) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -32,10 +31,18 @@ class World {
         this.run();
     }
 
+
+    /**
+     * set the var = world in "character.class.js" to this world
+     */
     setWorld() {
         this.character.world = this;
     }
 
+
+    /**
+     * run the game and check all important conditions
+     */
     run() {
         setInterval(() => {
             this.checkCollisions();
@@ -48,6 +55,10 @@ class World {
         }, 50);
     }
 
+
+    /**
+     * check if player successed and win game
+     */
     checkWinGame() {
         let gameOver = document.getElementById('game-over');
         if (this.playerBeatGame()) {
@@ -60,10 +71,19 @@ class World {
         }
     }
 
+
+    /**
+     * check if player won the game
+     * @returns conditions if player win
+     */
     playerBeatGame() {
         return this.character.energy > 0 && this.endBossBar.percentage == 0
     }
 
+
+    /**
+     * play win game sound
+     */
     playWinSound() {
         if (this.audio) {
             this.win_sound.volume = 0.3;
@@ -72,9 +92,13 @@ class World {
         this.game_sound.pause();
     }
 
+
+    /**
+     * check if player failed and lose game
+     */
     checkLostGame() {
         let lostGame = document.getElementById('lost-game');
-        if (this.gameBeatPlayer() || this.surpassEndboss()) {
+        if (this.gameBeatPlayer() || this.crossesEndboss()) {
             lostGame.classList.remove('d-none');
             hideControls();
             setTimeout(() => {
@@ -84,11 +108,20 @@ class World {
         }
     }
 
+
+    /**
+     * check if player lose the game
+     * @returns conditions if player lose
+     */
     gameBeatPlayer() {
         return this.character.energy <= 0 && this.character.collectableCoin <= 100 && this.endBossBar.percentage > 0
     }
 
-    surpassEndboss() {
+
+    /**
+     * check if player lose the game by crosses Endboss
+     */
+    crossesEndboss() {
         this.level.enemies.forEach((enemy) => {
             if (enemy.x - this.character.x < 0 && enemy instanceof Endboss) {
                 this.character.energy = 0;
@@ -97,6 +130,10 @@ class World {
         })
     }
 
+
+    /**
+     * play lose game sound
+     */
     playLoseSound() {
         if (this.audio) {
             this.lost_sound.play();
@@ -104,10 +141,18 @@ class World {
         this.game_sound.pause();
     }
 
+
+    /**
+     * clear all game intervals
+     */
     clearAllIntervals() {
         for (let i = 1; i < 9999; i++) window.clearInterval(i);
     }
 
+
+    /**
+     * check all collision situations in the game
+     */
     checkCollisions() {
         if (!this.character.isHurt()) {
             this.level.enemies.forEach((enemy) => {
@@ -120,6 +165,10 @@ class World {
         this.checkThrowableObjectCollision();
     }
 
+
+    /**
+     * check the collision with throwable objects & play the bottle sound
+     */
     checkThrowableObjectCollision() {
         this.throwableObjects.forEach(bottle => {
             this.level.enemies.forEach(enemy => {
@@ -129,6 +178,12 @@ class World {
         });
     }
 
+
+    /**
+     * check if throwable Object hits enemies
+     * @param {enemy} enemy
+     * @param {ThrowableObject} bottle
+     */
     bottleHitsEnemy(enemy, bottle) {
         if (this.bottleHitsNormalEnemy(enemy, bottle)) {
             enemy.energy -= 100;
@@ -147,20 +202,33 @@ class World {
         }
     };
 
+
+    /**
+     * check if bottle hit a normal enemy 
+     * @param {enemy} enemy
+     * @param {ThrowableObject} bottle
+     * @returns bottle collision check
+     */
     bottleHitsNormalEnemy(enemy, bottle) {
         return enemy.isColliding(bottle) && bottle.energy > 0 && bottle.isAboveGround() && (enemy instanceof Chicken || enemy instanceof SmallChicken)
     }
 
+
+    /**
+     * check if bottle hit the endboss
+     * @param {enemy} enemy 
+     * @param {ThrowableObject} bottle 
+     * @returns bottle collision check
+     */
     bottleHitsBossEnemy(enemy, bottle) {
         return enemy.isColliding(bottle) && bottle.energy > 0 && bottle.isAboveGround() && enemy instanceof Endboss
     }
 
-    playBottleSplashSound() {
-        if (this.audio) {
-            this.splash_sound.play();
-        }
-    }
 
+    /**
+     * check if throwable object hits the ground
+     * @param {ThrowableObject} bottle
+     */
     bottleHitsGround(bottle) {
         if (!bottle.isAboveGround()) {
             bottle.energy -= 100;
@@ -170,6 +238,20 @@ class World {
         }
     }
 
+    
+    /**
+     * play splash sound if bottle hits anything
+     */
+    playBottleSplashSound() {
+        if (this.audio) {
+            this.splash_sound.play();
+        }
+    }
+
+
+    /**
+     * check if throwable object hits endboss
+     */
     bottleHitsEndboss(enemy, bottle) {
         this.endBossBar.percentage -= 20;
         this.endBossBar.setPercentageEndbossBar(this.endBossBar.percentage);
@@ -177,6 +259,10 @@ class World {
         this.playEndbossHurtSound();
     }
 
+
+    /**
+     * play endboss hurt sound
+     */
     playEndbossHurtSound() {
         if (this.audio) {
             this.chicken_sound.volume = 0.3;
@@ -184,6 +270,11 @@ class World {
         }
     }
 
+
+    /**
+     * check the collision with normal enemies
+     * @param {enemy} enemy
+     */
     checkEnemyCollision(enemy) {
         if (this.playerGetHitByEnemy(enemy)) {
             this.playerGotHitByEnemy();
@@ -198,10 +289,20 @@ class World {
         }
     }
 
+
+    /**
+     * check if player jump on enemy to kill it
+     * @param {enemy} enemy 
+     * @returns check if player kill enemy
+     */
     playerKillEnemy(enemy) {
         return this.character.isColliding(enemy) && this.character.isAboveGround() && (enemy instanceof Chicken || enemy instanceof SmallChicken) && enemy.energy > 0
     }
 
+
+    /**
+     * play normal enemy dead sound
+     */
     enemyDeadSound() {
         if (this.audio) {
             this.crushed_sound.volume = 0.3;
@@ -209,10 +310,20 @@ class World {
         }
     }
 
+
+    /**
+     * check if player get hit by enemy collision
+     * @param {enemy} enemy 
+     * @returns player collision with enemy check
+     */
     playerGetHitByEnemy(enemy) {
         return this.character.isColliding(enemy) && !this.character.isAboveGround() && (enemy instanceof Chicken || enemy instanceof SmallChicken || enemy instanceof Endboss) && enemy.energy > 0
     }
 
+
+    /**
+     * check player collision with enemies and if player got hit he is for 1 s invincible and update healthbar
+     */
     playerGotHitByEnemy() {
         if (!this.invincible) {
             this.level.enemies.forEach((enemy) => {
@@ -232,12 +343,20 @@ class World {
         }
     }
 
+
+    /**
+     * play player got hurt sound
+     */
     playPlayerGotHurtSound() {
         if (this.audio) {
             this.hurt_sound.play();
         }
     }
 
+
+    /**
+     * let dead chicken bodys disappear
+     */
     deadEnemyDisappear() {
         let deadEnemies = [];
         for (let i = 0; i < this.level.enemies.length; i++) {
@@ -252,10 +371,18 @@ class World {
         }
     }
 
+
+    /**
+     * check if normal enemy is dead 
+     */
     enemyIsDead(enemy) {
         return enemy.energy <= 0 && (enemy instanceof Chicken || enemy instanceof SmallChicken)
     }
 
+
+    /**
+     * delete throwable bottles if they splashed
+     */
     deleteThrowObject() {
         for (let i = 0; i < this.throwableObjects.length; i++) {
             if (this.throwableObjectSplashed(i)) {
@@ -269,10 +396,19 @@ class World {
         }
     }
 
+
+    /**
+     * check if throwableObject is splashed
+     * @param {throwableObject} i 
+     */
     throwableObjectSplashed(i) {
         return this.throwableObjects[i].energy == 0 && !this.throwableObjects[i].deleted || !this.throwableObjects[i].isAboveGround() && !this.throwableObjects[i].deleted
     }
 
+
+    /**
+     * check player collision with bottle and update bottlebar
+     */
     checkBottleCollision() {
         for (let i = 0; i < this.level.bottles.length; i++) {
             let bottle = this.level.bottles[i];
@@ -285,6 +421,10 @@ class World {
         }
     }
 
+
+    /**
+     * play pick up bottle sound
+     */
     playPickUpBottleSound() {
         if (this.audio) {
             this.collectBottle_sound.volume = 0.2;
@@ -292,6 +432,10 @@ class World {
         }
     }
 
+
+    /**
+     * check Player collision with coin and update coinbar
+     */
     checkCoinCollision() {
         for (let i = 0; i < this.level.coins.length; i++) {
             let coin = this.level.coins[i];
@@ -304,6 +448,10 @@ class World {
         }
     }
 
+
+    /**
+     * play pick up coin sound
+     */
     playPickUpCoinSound() {
         if (this.audio) {
             this.coin_sound.volume = 0.2;
@@ -311,6 +459,10 @@ class World {
         }
     }
 
+
+    /**
+     * bottle always throwed from player position and check if u collected bottles before throwing and update bottlebar
+     */
     checkThrowObjects() {
         if (this.playerGotThrowableObjects()) {
             if (!this.throttled) {
@@ -328,16 +480,29 @@ class World {
         }
     }
 
+
+    /**
+     * if key up is pressed and got throwable objects 
+     * @returns conditions for throwing Objects
+     */
     playerGotThrowableObjects() {
         return this.keyboard.D && this.character.collectableBottle > 0
     }
 
+
+    /**
+     * play throw sound
+     */
     playThrowSound() {
         if (this.audio) {
             this.throw_sound.play();
         }
     }
 
+
+    /**
+     * activate endboss actions
+     */
     activateEndboss() {
         this.level.enemies.forEach((enemy) => {
             if (this.playerIsNearEndboss(enemy)) {
@@ -346,10 +511,20 @@ class World {
         })
     }
 
+
+    /**
+     * checks if player is near the endboss
+     * @param {enemy} enemy 
+     * @returns condition for endboss activation
+     */
     playerIsNearEndboss(enemy) {
         return enemy.x - this.character.x < 700 && enemy.energy > 0 && enemy instanceof Endboss && !enemy.isHurt()
     }
 
+
+    /**
+     * triggers the chicken rush attack
+     */
     chickenAttack() {
         this.level.enemies.forEach((enemy) => {
             if (this.playerIsNearNormalChicken(enemy)) {
@@ -358,10 +533,20 @@ class World {
         })
     }
 
+
+    /**
+     * checks if player is near normal chickens
+     * @param {enemy} enemy 
+     * @returns condition for chicken rush attack
+     */
     playerIsNearNormalChicken(enemy) {
         return enemy.x - this.character.x < 350 && enemy.energy > 0 && enemy instanceof Chicken
     }
 
+
+    /**
+     * draw all objects on the canvas --> build game world
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
@@ -389,24 +574,37 @@ class World {
         });
     }
 
+
+    /**
+     * add all movable objects to map (except Pepe)
+     * @param {movable Object} objects
+     */
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
         });
     }
 
+
+    /**
+     * add character Pepe and status bars to map and mirrors the image if player walks to left
+     * @param {movable Object} mo
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.mirrorImage(mo);
         }
-
         mo.draw(this.ctx);
-
         if (mo.otherDirection) {
             this.mirrorImageBack(mo);
         };
     }
 
+
+    /**
+     * mirrors player image if moving left
+     * @param {Movable Object} mo 
+     */
     mirrorImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -414,11 +612,20 @@ class World {
         mo.x = mo.x * -1;
     }
 
+
+    /**
+     * mirrors player image back if moving right again
+     * @param {Movable Object} mo 
+     */
     mirrorImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
 
+
+    /**
+     * plays the main ingame theme
+     */
     playIngameBackgroundMusic() {
         if (this.audio) {
             this.game_sound.volume = 0.03;

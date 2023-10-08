@@ -11,7 +11,7 @@ class Character extends MovableObject {
         bottom: 20,
         right: 40
     };
-    
+
     IMAGES_WALKING = [
         'assets/img/2_character_pepe/2_walk/W-21.png',
         'assets/img/2_character_pepe/2_walk/W-22.png',
@@ -88,34 +88,46 @@ class Character extends MovableObject {
         this.lastMoveTime = new Date().getTime();
     }
 
+
+    /**
+     * animate all of players interactions in the game  
+     */
     animate() {
         setInterval(() => this.moveCharacter(), 1000 / 60);
-
         setInterval(() => this.animateCharacter(), 100);
     }
 
+
+    /**
+     * player movement on control key press
+     */
     moveCharacter() {
         this.walking_sound.pause();
-
         if (this.canMoveRight()) {
             this.playerMoveRight();
         }
-
         if (this.canMoveLeft()) {
             this.playerMoveLeft();
         }
-
         if (this.canJump()) {
             this.playerJump();
         }
-
         this.world.camera_x = -this.x + 100;
     }
 
+
+    /**
+     * can player move right?
+     * @returns conditions so that the player can move right
+     */
     canMoveRight() {
         return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x
     }
 
+
+    /**
+     * player moves right && play walking sound
+     */
     playerMoveRight() {
         this.moveRight();
         this.setLastMoveTime()
@@ -123,10 +135,19 @@ class Character extends MovableObject {
         this.playWalkingSound();
     }
 
+
+    /**
+     * can player move left?
+     * @returns conditions so that the player can move left
+     */
     canMoveLeft() {
         return this.world.keyboard.LEFT && this.x > 0
     }
 
+
+    /**
+     * player moves left && play walking sound
+     */
     playerMoveLeft() {
         this.moveLeft();
         this.setLastMoveTime();
@@ -134,16 +155,29 @@ class Character extends MovableObject {
         this.playWalkingSound();
     }
 
+
+    /**
+     * function for the walking sound
+     */
     playWalkingSound() {
         if (this.world.audio) {
             this.walking_sound.play();
         }
     }
 
+
+    /**
+     * can player jump?
+     * @returns conditions so that the player can jump
+     */
     canJump() {
         return this.world.keyboard.SPACE && !this.isAboveGround()
     }
 
+
+    /**
+     * player jump && play jumping sound
+     */
     playerJump() {
         this.jump();
         this.setLastMoveTime()
@@ -153,6 +187,10 @@ class Character extends MovableObject {
         }
     }
 
+
+    /**
+     * animate all player interactions
+     */
     animateCharacter() {
         if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
@@ -169,12 +207,21 @@ class Character extends MovableObject {
         }
     }
 
+
+    /**
+     * this function checks if the last move time > 5s
+     * @returns true or false
+     */
     checkIdleTime() {
         let idleTime = new Date().getTime() - this.lastMoveTime;
         idleTime = idleTime / 1000;
         return idleTime > 5;
     }
 
+
+    /**
+     * this function set the last move time
+     */
     setLastMoveTime() {
         this.lastMoveTime = new Date().getTime();
     }
